@@ -1,7 +1,8 @@
+import type { StatusOpts } from '@/app/lib/definitions';
 import { CheckIcon, ClockIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 
-export default function InvoiceStatus({ status }: { status: string }) {
+export default function InvoiceStatus({ status }: { status: StatusOpts }) {
   return (
     <span
       className={clsx(
