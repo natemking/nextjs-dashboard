@@ -1,17 +1,22 @@
+import { FlatCompat } from '@eslint/eslintrc';
 import eslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import reactPlugin from 'eslint-plugin-react';
-// import nextPlugin from '@next/eslint-plugin-next';
+import nextPlugin from '@next/eslint-plugin-next';
 import commentsPlugin from 'eslint-plugin-eslint-comments';
 
+const compat = new FlatCompat({
+	baseDirectory: import.meta.dirname,
+});
 
 export default tseslint.config(
 	eslint.configs.recommended,
-    // commentsPlugin.configs.recommended,
+	...compat.config(commentsPlugin.configs.recommended),
 	reactPlugin.configs.flat.recommended,
 	reactPlugin.configs.flat['jsx-runtime'],
 	tseslint.configs.strictTypeChecked,
 	tseslint.configs.stylisticTypeChecked,
+	...compat.config(nextPlugin.configs.recommended),
 	[
 		// global ignores
 		{
@@ -25,11 +30,16 @@ export default tseslint.config(
 				},
 			},
 		},
+        // prevent ts linting on certain config files - https://typescript-eslint.io/users/configs/#disable-type-checked
+		{
+			files: ['**/*.{js,mjs,cjs}'],
+			extends: [tseslint.configs.disableTypeChecked],
+		},
 		// rules for ts, tsx, js, & jsx files
 		{
 			files: ['**/*.{js,mjs,cjs,jsx,ts,tsx}'],
 			linterOptions: {
-				noInlineConfig: true,
+				// noInlineConfig: true,
 				reportUnusedDisableDirectives: true,
 			},
 			settings: {
@@ -38,8 +48,8 @@ export default tseslint.config(
 				},
 			},
 			// plugins: {
-			// 	// '@next/next': nextPlugin,
-			// 	'eslint-comments': commentsPlugin,
+			// 	'@next/next': fixupPluginRules(nextPlugin),
+			// 	'eslint-comments': fixupPluginRules(commentsPlugin),
 			// },
 			rules: {
 				// General JavaScript rules
@@ -282,7 +292,7 @@ export default tseslint.config(
 				 *
 				 * 🚫 Not fixable - https://mysticatea.github.io/eslint-plugin-eslint-comments/rules/require-description.html
 				 */
-				// 'eslint-comments/require-description': 'error',
+				'eslint-comments/require-description': 'error',
 
 				//es6
 				/**
@@ -351,8 +361,6 @@ export default tseslint.config(
 					'error',
 					'type',
 				],
-
-				// ...nextPlugin.configs.recommended.rules,
 			},
 		},
 	]
