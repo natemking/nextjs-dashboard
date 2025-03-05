@@ -15,13 +15,12 @@ export default tseslint.config(
     eslint.configs.recommended,
     ...compat.config(commentsPlugin.configs.recommended),
     importPlugin.flatConfigs.recommended,
-    // importPlugin.flatConfigs.recommendedTypeScript,
+    eslintPluginPrettierRecommended,
     reactPlugin.configs.flat.recommended,
     reactPlugin.configs.flat['jsx-runtime'],
     tseslint.configs.strictTypeChecked,
     tseslint.configs.stylisticTypeChecked,
     ...compat.config(nextPlugin.configs.recommended),
-    eslintPluginPrettierRecommended,
     [
         // global ignores
         {
