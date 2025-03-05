@@ -30,6 +30,7 @@
 		"@types/react": "19.0.7",
 		"@types/react-dom": "19.0.3",
 		"eslint": "^9.21.0",
+		"eslint-plugin-eslint-comments": "^3.2.0",
 		"eslint-plugin-react": "^7.37.4",
 		"typescript": "5.7.3",
 		"typescript-eslint": "^8.26.0"
