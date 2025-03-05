@@ -455,5 +455,20 @@ export default tseslint.config(
 				],
 			},
 		},
+        // allow default exports in certain files that require them
+		{
+			files: [
+				'**/error.tsx',
+				'**/global-error.tsx',
+				'**/layout.tsx',
+				'**/loading.tsx',
+				'**/not-found.tsx',
+				'**/page.tsx',
+                '**/*.config.{js,ts}'
+			],
+			rules: {
+				'import/no-default-export': 'off',
+			},
+		},
 	]
 );
