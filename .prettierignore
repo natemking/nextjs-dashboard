@@ -57,4 +57,5 @@ next-env.d.ts
 .vscode/*
 
 *.yml
+*.yaml
 *.mjs
