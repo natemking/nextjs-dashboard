@@ -10,6 +10,17 @@ import tsdocPlugin from 'eslint-plugin-tsdoc';
 import unicornPlugin from 'eslint-plugin-unicorn';
 import jsxA11yPlugin from 'eslint-plugin-jsx-a11y';
 
+const noUnusedVarsConfig = [
+    'error',
+    {
+        args: 'after-used',
+        argsIgnorePattern: '^_',
+        ignoreRestSiblings: false,
+        vars: 'all',
+        varsIgnorePattern: '^_',
+    },
+] 
+
 const compat = new FlatCompat({
     baseDirectory: import.meta.dirname,
 });
@@ -22,6 +33,7 @@ export default tseslint.config(
     jsxA11yPlugin.flatConfigs.recommended,
     reactPlugin.configs.flat.recommended,
     reactPlugin.configs.flat['jsx-runtime'],
+    tseslint.configs.recommendedTypeChecked,
     tseslint.configs.strictTypeChecked,
     tseslint.configs.stylisticTypeChecked,
     ...compat.config(nextPlugin.configs.recommended),
@@ -30,15 +42,15 @@ export default tseslint.config(
         {
             ignores: ['node_modules/', '.next/'],
         },
-        // needed for the strict ts linting
-        {
-            languageOptions: {
-                parserOptions: {
-                    projectService: true,
-                    tsconfigRootDir: import.meta.dirname,
-                },
-            },
-        },
+        // needed for the ts linting
+        // {
+        //     languageOptions: {
+        //         parserOptions: {
+        //             projectService: true,
+        //             tsconfigRootDir: import.meta.dirname,
+        //         },
+        //     },
+        // },
         // prevent ts linting on certain config files - https://typescript-eslint.io/users/configs/#disable-type-checked
         {
             files: ['**/*.{js,mjs,cjs}'],
@@ -50,6 +62,13 @@ export default tseslint.config(
             linterOptions: {
                 // noInlineConfig: true,
                 reportUnusedDisableDirectives: true,
+            },
+            // needed for the ts linting
+            languageOptions: {
+                parserOptions: {
+                    projectService: true,
+                    tsconfigRootDir: import.meta.dirname,
+                },
             },
             settings: {
                 react: {
@@ -66,12 +85,6 @@ export default tseslint.config(
                 unicorn: unicornPlugin,
             },
             rules: {
-                // General JavaScript rules
-                // 'no-console': ['warn', { allow: ['warn', 'error', 'info'] }],
-                // 'no-duplicate-imports': 'error',
-                // 'prefer-const': 'warn',
-                // semi: 'error',
-
                 // best practices
                 /**
                  * Require return statements in array methods callbacks.
@@ -472,6 +485,14 @@ export default tseslint.config(
                         'newlines-between': 'never',
                     },
                 ],
+                /**
+                 * These are enabled by `import/recommended`, but are better handled by
+                 * TypeScript and @typescript-eslint.
+                 */
+                'import/default': 'off',
+                'import/export': 'off',
+                'import/namespace': 'off',
+                'import/no-unresolved': 'off',
 
                 //possible errors
                 /**
@@ -684,18 +705,139 @@ export default tseslint.config(
                  * Disallow unused variables.
                  *
                  * 🚫 Not fixable - https://eslint.org/docs/rules/no-unused-vars
-                 */ 'no-unused-vars': [
-                    'error',
+                 */ 'no-unused-vars': noUnusedVarsConfig,
+
+                // typescript
+                '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
+                /**
+                 * Require consistent usage of type exports.
+                 *
+                 * 🔧 Fixable - https://typescript-eslint.io/rules/consistent-type-exports/
+                 */
+                '@typescript-eslint/consistent-type-exports': [
+                    'warn',
+                    { fixMixedExportsWithInlineTypeSpecifier: true },
+                ],
+                /**
+                 * Require consistent usage of type imports.
+                 *
+                 * 🔧 Fixable - https://typescript-eslint.io/rules/consistent-type-imports/
+                 */
+                '@typescript-eslint/consistent-type-imports': [
+                    'warn',
                     {
-                        args: 'after-used',
-                        argsIgnorePattern: '^_',
-                        ignoreRestSiblings: false,
-                        vars: 'all',
-                        varsIgnorePattern: '^_',
+                        disallowTypeAnnotations: true,
+                        fixStyle: 'inline-type-imports',
+                        prefer: 'type-imports',
                     },
                 ],
-
-                '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
+                /**
+                 * Require explicit return types on functions and class methods.
+                 *
+                 * 🚫 Not fixable - https://typescript-eslint.io/rules/explicit-function-return-type/
+                 */
+                '@typescript-eslint/explicit-function-return-type': [
+                    'warn',
+                    { allowExpressions: true },
+                ],
+                /**
+                 * Require using function property types in method signatures.
+                 *
+                 * These have enhanced typechecking, whereas method signatures do not.
+                 *
+                 * 🔧 Fixable - https://typescript-eslint.io/rules/method-signature-style/
+                 */
+                '@typescript-eslint/method-signature-style': 'warn',
+                /**
+                 * Require consistent naming conventions.
+                 *
+                 * Improves IntelliSense suggestions and avoids name collisions.
+                 *
+                 * 🚫 Not fixable - https://typescript-eslint.io/rules/naming-convention/
+                 */
+                '@typescript-eslint/naming-convention': [
+                    'error',
+                    // Anything type-like should be written in PascalCase.
+                    {
+                        format: ['PascalCase'],
+                        selector: ['typeLike', 'enumMember'],
+                    },
+                    // Interfaces cannot be prefixed with `I`, or have restricted names.
+                    {
+                        custom: {
+                            match: false,
+                            regex: '^I[A-Z]|^(Interface|Props|State)$',
+                        },
+                        format: ['PascalCase'],
+                        selector: 'interface',
+                    },
+                ],
+                /**
+                 * Disallow members of unions and intersections that do nothing or override type information.
+                 *
+                 * 🚫 Not fixable - https://typescript-eslint.io/rules/no-redundant-type-constituents/
+                 */
+                '@typescript-eslint/no-redundant-type-constituents': 'warn',
+                /**
+                 * Disallow unnecessary namespace qualifiers.
+                 *
+                 * 🔧 Fixable - https://typescript-eslint.io/rules/no-unnecessary-qualifier/
+                 */
+                '@typescript-eslint/no-unnecessary-qualifier': 'warn',
+                /**
+                 * Require using `RegExp.exec()` over `String.match()` for consistency.
+                 *
+                 * 🔧 Fixable - https://typescript-eslint.io/rules/prefer-regexp-exec/
+                 */
+                '@typescript-eslint/prefer-regexp-exec': 'warn',
+                /**
+                 * Require Array#sort calls to provide a compare function.
+                 *
+                 * 🚫 Not fixable - https://typescript-eslint.io/rules/require-array-sort-compare/
+                 */
+                '@typescript-eslint/require-array-sort-compare': [
+                    'error',
+                    { ignoreStringArrays: true },
+                ],
+                /**
+                 * Require exhaustive checks when using union types in switch statements.
+                 *
+                 * This ensures cases are considered when items are later added to a union.
+                 *
+                 * 🚫 Not fixable - https://typescript-eslint.io/rules/switch-exhaustiveness-check/
+                 */
+                '@typescript-eslint/switch-exhaustiveness-check': 'error',
+                /**
+                 * Require default parameters to be last.
+                 *
+                 * 🚫 Not fixable - https://typescript-eslint.io/rules/default-param-last/
+                 */
+                '@typescript-eslint/default-param-last': 'error',
+                /**
+                 * Disallow creation of functions within loops.
+                 *
+                 * 🚫 Not fixable - https://typescript-eslint.io/rules/no-loop-func/
+                 */
+                '@typescript-eslint/no-loop-func': 'error',
+                /**
+                 * Disallow variable declarations from shadowing variables declared in the
+                 * outer scope.
+                 *
+                 * 🚫 Not fixable - https://typescript-eslint.io/rules/no-shadow/
+                 */
+                '@typescript-eslint/no-shadow': 'error',
+                /**
+                 * Disallow unused variables.
+                 *
+                 * 🚫 Not fixable - https://typescript-eslint.io/rules/no-unused-vars/
+                 */
+                '@typescript-eslint/no-unused-vars': noUnusedVarsConfig,
+                /**
+                 * Disallow unnecessary constructors.
+                 *
+                 * 🚫 Not fixable - https://typescript-eslint.io/rules/no-useless-constructor/
+                 */
+                '@typescript-eslint/no-useless-constructor': 'error',
             },
         },
         // allow default exports in certain files that require them
