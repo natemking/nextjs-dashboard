@@ -19,7 +19,7 @@ const noUnusedVarsConfig = [
         vars: 'all',
         varsIgnorePattern: '^_',
     },
-] 
+];
 
 const compat = new FlatCompat({
     baseDirectory: import.meta.dirname,
@@ -85,392 +85,130 @@ export default tseslint.config(
                 unicorn: unicornPlugin,
             },
             rules: {
-                // best practices
-                /**
-                 * Require return statements in array methods callbacks.
-                 *
-                 * 🚫 Not fixable -https://eslint.org/docs/rules/array-callback-return
-                 */
+                /** BEST PRACTICES */
+                /** Require return statements in array methods callbacks. */
                 'array-callback-return': ['error', { allowImplicit: true }],
-                /**
-                 * Treat `var` statements as if they were block scoped.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/block-scoped-var
-                 */
+                /** Treat `var` statements as if they were block scoped. */
                 'block-scoped-var': 'error',
-                /**
-                 * Require curly braces for multiline blocks.
-                 *
-                 * 🔧 Fixable - https://eslint.org/docs/rules/curly
-                 */
+                /** Require curly braces for multiline blocks. */
                 curly: ['warn', 'multi-line'],
-                /**
-                 * Require default clauses in switch statements to be last (if used).
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/default-case-last
-                 */
+                /** Require default clauses in switch statements to be last (if used). */
                 'default-case-last': 'error',
-                /**
-                 * Require triple equals (`===` and `!==`).
-                 *
-                 * 🔧 Fixable - https://eslint.org/docs/rules/eqeqeq
-                 */
+                /** Require triple equals (`===` and `!==`). */
                 eqeqeq: 'error',
-                /**
-                 * Require grouped accessor pairs in object literals and classes.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/grouped-accessor-pairs
-                 */
+                /** Require grouped accessor pairs in object literals and classes. */
                 'grouped-accessor-pairs': 'error',
-                /**
-                 * Disallow use of `alert()`.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/no-alert
-                 */
+                /** Disallow use of `alert()`. */
                 'no-alert': 'error',
-                /**
-                 * Disallow use of `caller`/`callee`.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/no-caller
-                 */
+                /** Disallow use of `caller`/`callee`. */
                 'no-caller': 'error',
-                /**
-                 * Disallow returning value in constructor.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/no-constructor-return
-                 */
+                /** Disallow returning value in constructor. */
                 'no-constructor-return': 'error',
-                /**
-                 * Disallow using an `else` if the `if` block contains a return.
-                 *
-                 * 🔧 Fixable - https://eslint.org/docs/rules/no-else-return
-                 */
+                /** Disallow using an `else` if the `if` block contains a return. */
                 'no-else-return': 'warn',
-                /**
-                 * Disallow `eval()`.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/no-eval
-                 */
+                /** Disallow `eval()`. */
                 'no-eval': 'error',
-                /**
-                 * Disallow extending native objects.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/no-extend-native
-                 */
+                /** Disallow extending native objects. */
                 'no-extend-native': 'error',
-                /**
-                 * Disallow unnecessary function binding.
-                 *
-                 * 🔧 Fixable - https://eslint.org/docs/rules/no-extra-bind
-                 */
+                /** Disallow unnecessary function binding. */
                 'no-extra-bind': 'error',
-                /**
-                 * Disallow unnecessary labels.
-                 *
-                 * 🔧 Fixable - https://eslint.org/docs/rules/no-extra-label
-                 */
+                /** Disallow unnecessary labels. */
                 'no-extra-label': 'error',
-                /**
-                 * Disallow floating decimals.
-                 *
-                 * 🔧 Fixable - https://eslint.org/docs/rules/no-floating-decimal
-                 */
+                /** Disallow floating decimals. */
                 'no-floating-decimal': 'error',
-                /**
-                 * Make people convert types explicitly e.g. `Boolean(foo)` instead of `!!foo`.
-                 *
-                 * 🔧 Partially Fixable - https://eslint.org/docs/rules/no-implicit-coercion
-                 */
+                /** Make people convert types explicitly e.g. `Boolean(foo)` instead of `!!foo`. */
                 'no-implicit-coercion': 'error',
-                /**
-                 * Disallow use of `eval()`-like methods.
-                 *
-                 * https://eslint.org/docs/rules/no-implied-eval
-                 */
+                /** Disallow use of `eval()`-like methods. */
                 'no-implied-eval': 'error',
-                /**
-                 * Disallow usage of `__iterator__` property.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/no-iterator
-                 */
+                /** Disallow usage of `__iterator__` property. */
                 'no-iterator': 'error',
-                /**
-                 * Disallow use of labels for anything other than loops and switches.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/no-labels
-                 */
+                /** Disallow use of labels for anything other than loops and switches. */
                 'no-labels': ['error'],
-                /**
-                 * Disallow unnecessary nested blocks.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/no-lone-blocks
-                 */
+                /** Disallow unnecessary nested blocks. */
                 'no-lone-blocks': 'error',
-                /**
-                 * Disallow `new` for side effects.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/no-new
-                 */
+                /** Disallow `new` for side effects. */
                 'no-new': 'error',
-                /**
-                 * Disallow function constructors.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/no-new-func
-                 */
+                /** Disallow function constructors.  */
                 'no-new-func': 'error',
-                /**
-                 * Disallow primitive wrapper instances, such as `new String('foo')`.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/no-new-wrappers
-                 */
+                /** Disallow primitive wrapper instances, such as `new String('foo')`. */
                 'no-new-wrappers': 'error',
-                /**
-                 * Disallow use of octal escape sequences in string literals.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/no-octal-escape
-                 */
+                /** Disallow use of octal escape sequences in string literals. */
                 'no-octal-escape': 'error',
-                /**
-                 * Disallow reassignment of function parameters.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/no-param-reassign
-                 */
+                /** Disallow reassignment of function parameters. */
                 'no-param-reassign': 'error',
-                /**
-                 * Disallow usage of the deprecated `__proto__` property.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/no-proto
-                 */
+                /** Disallow usage of the deprecated `__proto__` property. */
                 'no-proto': 'error',
-                /**
-                 * Disallow assignment in `return` statement.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/no-return-assign
-                 */
+                /** Disallow assignment in `return` statement.  */
                 'no-return-assign': 'error',
-                /**
-                 * Disallow use of `javascript:` urls.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/no-script-url
-                 */
+                /** Disallow use of `javascript:` urls. */
                 'no-script-url': 'error',
-                /**
-                 * Disallow comparisons where both sides are exactly the same.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/no-self-compare
-                 */
+                /** Disallow comparisons where both sides are exactly the same. */
                 'no-self-compare': 'error',
-                /**
-                 * Disallow use of comma operator.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/no-sequences
-                 */
+                /** Disallow use of comma operator. */
                 'no-sequences': 'error',
-                /**
-                 * Disallow unnecessary `.call()` and `.apply()`.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/no-useless-call
-                 */
+                /**  Disallow unnecessary `.call()` and `.apply()`. */
                 'no-useless-call': 'error',
-                /**
-                 * Disallow unnecessary concatenation of strings.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/no-useless-concat
-                 */
+                /** Disallow unnecessary concatenation of strings. */
                 'no-useless-concat': 'error',
-                /**
-                 * Disallow redundant return statements.
-                 *
-                 * 🔧 Fixable - https://eslint.org/docs/rules/no-useless-return
-                 */
+                /** Disallow redundant return statements. */
                 'no-useless-return': 'warn',
-                /**
-                 * Require using named capture groups in regular expressions.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/prefer-named-capture-group
-                 */
+                /** Require using named capture groups in regular expressions. */
                 'prefer-named-capture-group': 'error',
-                /**
-                 * Require using Error objects as Promise rejection reasons.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/prefer-promise-reject-errors
-                 */
+                /** Require using Error objects as Promise rejection reasons. */
                 'prefer-promise-reject-errors': ['error', { allowEmptyReject: true }],
-                /**
-                 * Disallow use of the RegExp constructor in favor of regular expression
-                 * literals.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/prefer-regex-literals
-                 */
+                /** Disallow use of the RegExp constructor in favor of regular expression literals. */
                 'prefer-regex-literals': 'error',
-                /**
-                 * Disallow "Yoda conditions", ensuring the comparison.
-                 *
-                 * 🔧 Fixable - https://eslint.org/docs/rules/yoda
-                 */
+                /** Disallow "Yoda conditions", ensuring the comparison. */
                 yoda: 'warn',
 
-                // comments
-                /**
-                 * Require comments on ESlint disable directives.
-                 *
-                 * 🚫 Not fixable - https://mysticatea.github.io/eslint-plugin-eslint-comments/rules/require-description.html
-                 */
+                /** COMMENTS */
+                /** Require comments on ESlint disable directives. */
                 'eslint-comments/require-description': 'error',
 
-                // tsdoc
-                'tsdoc/syntax': 'error',
-
-                //unicorn
-                'unicorn/filename-case': [
-                    'error',
-                    {
-                        cases: {
-                            camelCase: true,
-                            kebabCase: true,
-                            pascalCase: true,
-                        },
-                    },
-                ],
-                /**
-                 * Require using the `node:` protocol when importing Node.js built-in modules.
-                 *
-                 * 🔧 Fixable - https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/prefer-node-protocol.md
-                 */
-                'unicorn/prefer-node-protocol': 'warn',
-
-                // jsxA11y - This rule has been deprecated, but not yet removed.
-                'jsx-a11y/no-onchange': 'off',
-
-                //es6
-                /**
-                 * Disallow useless computed property keys.
-                 *
-                 * 🔧 Fixable - https://eslint.org/docs/rules/no-useless-computed-key
-                 */
+                /** ES6 */
+                /** Disallow useless computed property keys. */
                 'no-useless-computed-key': 'warn',
-                /**
-                 * Disallow renaming import, export, and destructured assignments to the
-                 * same name.
-                 *
-                 * 🔧 Fixable - https://eslint.org/docs/rules/no-useless-rename
-                 */
+                /** Disallow renaming imports, exports, and destructured assignments to the same name. */
                 'no-useless-rename': 'warn',
-                /**
-                 * Require `let` or `const` instead of `var`.
-                 *
-                 * 🔧 Fixable - https://eslint.org/docs/rules/no-var
-                 */
+                /** Require `let` or `const` instead of `var`. */
                 'no-var': 'error',
-                /**
-                 * Require object literal shorthand syntax.
-                 *
-                 * 🔧 Fixable - https://eslint.org/docs/rules/object-shorthand
-                 */
+                /** Require object literal shorthand syntax. */
                 'object-shorthand': 'warn',
-                /**
-                 * Require default to `const` instead of `let`.
-                 *
-                 * 🔧 Fixable - https://eslint.org/docs/rules/prefer-const
-                 */
+                /** Require default to `const` instead of `let`. */
                 'prefer-const': 'warn',
-                /**
-                 * Disallow parseInt() in favor of binary, octal, and hexadecimal literals.
-                 *
-                 * 🔧 Fixable - https://eslint.org/docs/rules/prefer-numeric-literals
-                 */
+                /** Disallow parseInt() in favor of binary, octal, and hexadecimal literals. */
                 'prefer-numeric-literals': 'error',
-                /**
-                 * Require using rest parameters instead of `arguments`.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/prefer-rest-params
-                 */
+                /**  Require using rest parameters instead of `arguments`. */
                 'prefer-rest-params': 'error',
-                /**
-                 * Require using spread syntax instead of `.apply()`.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/prefer-spread
-                 */
+                /** Require using spread syntax instead of `.apply()`. */
                 'prefer-spread': 'error',
-                /**
-                 * Require using template literals instead of string concatenation.
-                 *
-                 * 🔧 Fixable - https://eslint.org/docs/rules/prefer-template
-                 */
+                /** Require using template literals instead of string concatenation. */
                 'prefer-template': 'warn',
-                /**
-                 * Require a `Symbol` description.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/symbol-description
-                 */
+                /** Require a `Symbol` description. */
                 'symbol-description': 'error',
 
-                //imports
-                /**
-                 * Disallow non-import statements appearing before import statements.
-                 *
-                 * 🚫 Not fixable - https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/first.md
-                 */
+                /** IMPORT */
+                /** Disallow non-import statements appearing before import statements. */
                 'import/first': 'error',
-                /**
-                 * Require a newline after the last import/require.
-                 *
-                 * 🔧 Fixable - https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/newline-after-import.md
-                 */
+                /** Require a newline after the last import/require. */
                 'import/newline-after-import': 'warn',
-                /**
-                 * Disallow import of modules using absolute paths.
-                 *
-                 * 🚫 Not fixable - https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-absolute-path.md
-                 */
+                /** Disallow import of modules using absolute paths. */
                 'import/no-absolute-path': 'error',
-                /**
-                 * Disallow cyclical dependencies between modules.
-                 *
-                 * 🚫 Not fixable - https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-cycle.md
-                 */
+                /** Disallow cyclical dependencies between modules. */
                 'import/no-cycle': 'error',
-                /**
-                 * Disallow default exports.
-                 *
-                 * 🚫 Not fixable - https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-default-export.md
-                 */
+                /** Disallow default exports. */
                 'import/no-default-export': 'error',
-                /**
-                 * Disallow the use of extraneous packages.
-                 *
-                 * 🚫 Not fixable - https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-extraneous-dependencies.md
-                 */
+                /** Disallow the use of extraneous packages. */
                 'import/no-extraneous-dependencies': ['error', { includeTypes: true }],
-                /**
-                 * Disallow mutable exports.
-                 *
-                 * 🚫 Not fixable - https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-mutable-exports.md
-                 */
+                /** Disallow mutable exports. */
                 'import/no-mutable-exports': 'error',
-                /**
-                 * Disallow importing packages through relative paths.
-                 *
-                 * 🚫 Not fixable - https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-relative-packages.md
-                 */
+                /** Disallow importing packages through relative paths. */
                 'import/no-relative-packages': 'warn',
-                /**
-                 * Disallow a module from importing itself.
-                 *
-                 * 🚫 Not fixable - https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-self-import.md
-                 */
+                /** Disallow a module from importing itself. */
                 'import/no-self-import': 'error',
-                /**
-                 * Ensures that there are no useless path segments.
-                 *
-                 * 🚫 Not fixable - https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-useless-path-segments.md
-                 */
+                /** Ensures that there are no useless path segments. */
                 'import/no-useless-path-segments': ['error'],
-                /**
-                 * Enforce a module import order convention.
-                 *
-                 * 🔧 Fixable - https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/order.md
-                 */
+                /**  Enforce a module import order convention. */
                 'import/order': [
                     'warn',
                     {
@@ -485,118 +223,49 @@ export default tseslint.config(
                         'newlines-between': 'never',
                     },
                 ],
-                /**
-                 * These are enabled by `import/recommended`, but are better handled by
-                 * TypeScript and @typescript-eslint.
-                 */
+                /** Enabled by import/recommended, but better handled by TS & @typescript-eslint. */
                 'import/default': 'off',
                 'import/export': 'off',
                 'import/namespace': 'off',
                 'import/no-unresolved': 'off',
 
-                //possible errors
-                /**
-                 * Disallow the use of certain consoles.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/no-console
-                 */
+                /** POSSIBLE ERRORS */
+                /** Disallow the use of certain consoles. */
                 'no-console': ['warn', { allow: ['warn', 'error', 'info'] }],
-                /**
-                 * Disallow expressions where the operation doesn't affect the value.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/no-console
-                 */
+                /** Disallow expressions where the operation doesn't affect the value. */
                 'no-constant-binary-expression': 'error',
-                /**
-                 * Disallow returning values from Promise executor functions.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/no-promise-executor-return
-                 */
+                /** Disallow returning values from Promise executor functions. */
                 'no-promise-executor-return': 'error',
-                /**
-                 * Disallow template literal placeholder syntax in regular strings, as
-                 * these are likely errors.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/no-template-curly-in-string
-                 */
+                /** Disallow template placeholders in strings; likely errors. */
                 'no-template-curly-in-string': 'error',
-                /**
-                 *  Disallow loops with a body that allows only one iteration.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/no-unreachable-loop
-                 */
+                /** Disallow loops with a body that allows only one iteration. */
                 'no-unreachable-loop': 'error',
 
-                //stylistic
-                /**
-                 * Require camel case names.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/camelcase
-                 */
+                /** STYLISTIC */
+                /** Require camel case names. */
                 camelcase: [
                     'error',
                     { allow: ['^UNSAFE_'], ignoreDestructuring: false, properties: 'never' },
                 ],
-                /**
-                 * Require function expressions to have a name.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/func-names
-                 */
+                /** Require function expressions to have a name. */
                 'func-names': ['error', 'as-needed'],
-                /**
-                 * Require a capital letter for constructors.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/new-cap
-                 */
+                /** Require a capital letter for constructors. */
                 'new-cap': ['error', { capIsNew: false }],
-                /**
-                 * Disallow the omission of parentheses when invoking a constructor with
-                 * no arguments.
-                 *
-                 * 🔧 Fixable - https://eslint.org/docs/rules/new-parens
-                 */
+                /** Disallow omitting parentheses in empty constructor calls. */
                 'new-parens': 'warn',
-                /**
-                 * Disallow use of the Array constructor.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/no-array-constructor
-                 */
+                /** Disallow use of the Array constructor. */
                 'no-array-constructor': 'error',
-                /**
-                 * Disallow use of bitwise operators.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/no-bitwise
-                 */
+                /** Disallow use of bitwise operators. */
                 'no-bitwise': 'error',
-                /**
-                 * Disallow if as the only statement in an else block.
-                 *
-                 * 🔧 Fixable - https://eslint.org/docs/rules/no-lonely-if
-                 */
+                /** Disallow if as the only statement in an else block. */
                 'no-lonely-if': 'warn',
-                /**
-                 * Disallow use of chained assignment expressions.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/no-multi-assign
-                 */
+                /** Disallow use of chained assignment expressions.  */
                 'no-multi-assign': ['error'],
-                /**
-                 * Disallow nested ternary expressions.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/no-nested-ternary
-                 */
+                /**  Disallow nested ternary expressions. */
                 'no-nested-ternary': 'error',
-                /**
-                 * Disallow ternary operators when simpler alternatives exist.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/no-unneeded-ternary
-                 */
+                /**  Disallow ternary operators when simpler alternatives exist. */
                 'no-unneeded-ternary': 'error',
-                /**
-                 * Require use of an object spread over Object.assign.
-                 *
-                 * 🔧 Fixable - https://eslint.org/docs/rules/prefer-object-spread
-                 */
+                /** Require use of an object spread over Object.assign. */
                 'prefer-object-spread': 'warn',
 
                 // react
@@ -838,6 +507,43 @@ export default tseslint.config(
                  * 🚫 Not fixable - https://typescript-eslint.io/rules/no-useless-constructor/
                  */
                 '@typescript-eslint/no-useless-constructor': 'error',
+
+                /** TSDOC */
+                /** Require TSDoc comments conform to the TSDoc specification. */
+                'tsdoc/syntax': 'error',
+
+                /** UNICORN */
+                /** Require using the `node:` protocol when importing Node.js built-in modules. */
+                'unicorn/prefer-node-protocol': 'warn',
+            },
+        },
+        {
+            files: ['**/*.{js,ts,cjs,cts,mjs,mts}'],
+            rules: {
+                /** Require consistent filename case for all js,ts files. */
+                'unicorn/filename-case': [
+                    'error',
+                    {
+                        cases: {
+                            camelCase: true,
+                            kebabCase: true,
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            files: ['**/*.{jsx,tsx}'],
+            rules: {
+                /** Require consistent filename case for all jsx,tsx files. */
+                'unicorn/filename-case': [
+                    'error',
+                    {
+                        cases: {
+                            pascalCase: true,
+                        },
+                    },
+                ],
             },
         },
         // allow default exports in certain files that require them
