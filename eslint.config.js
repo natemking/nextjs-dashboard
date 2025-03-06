@@ -7,6 +7,7 @@ import commentsPlugin from 'eslint-plugin-eslint-comments';
 import importPlugin from 'eslint-plugin-import';
 import prettierPluginRecommended from 'eslint-plugin-prettier/recommended';
 import tsdocPlugin from 'eslint-plugin-tsdoc';
+import unicornPlugin from 'eslint-plugin-unicorn';
 
 const compat = new FlatCompat({
     baseDirectory: import.meta.dirname,
@@ -60,6 +61,7 @@ export default tseslint.config(
             },
             plugins: {
                 tsdoc: tsdocPlugin,
+                unicorn: unicornPlugin,
             },
             rules: {
                 // General JavaScript rules
@@ -303,6 +305,24 @@ export default tseslint.config(
 
                 // tsdoc
                 'tsdoc/syntax': 'error',
+
+                //unicorn
+                'unicorn/filename-case': [
+                    'error',
+                    {
+                        cases: {
+                            camelCase: true,
+                            kebabCase: true,
+                            pascalCase: true,
+                        },
+                    },
+                ],
+                /**
+                 * Require using the `node:` protocol when importing Node.js built-in modules.
+                 *
+                 * 🔧 Fixable - https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/prefer-node-protocol.md
+                 */
+                'unicorn/prefer-node-protocol': 'warn',
 
                 //es6
                 /**
