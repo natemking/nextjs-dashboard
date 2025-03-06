@@ -31,7 +31,6 @@
         "@types/react": "19.0.7",
         "@types/react-dom": "19.0.3",
         "eslint": "^9.21.0",
-        "eslint-config-prettier": "^10.0.2",
         "eslint-import-resolver-typescript": "^3.8.3",
         "eslint-plugin-eslint-comments": "^3.2.0",
         "eslint-plugin-import": "^2.31.0",

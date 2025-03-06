@@ -12,7 +12,7 @@ import jsxA11yPlugin from 'eslint-plugin-jsx-a11y';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
 
 /**
- * Create FlatCompat instance to handle shared configs 
+ * Create FlatCompat instance to handle shared configs
  * not up to date with the latest eslint flat config
  */
 const compat = new FlatCompat({
@@ -239,6 +239,8 @@ export default tseslint.config(
                 ],
                 /** Require function expressions to have a name. */
                 'func-names': ['error', 'as-needed'],
+                /** Require single quotes in JSX */
+                'jsx-quotes': ['error', 'prefer-single'],
                 /** Require a capital letter for constructors. */
                 'new-cap': ['error', { capIsNew: false }],
                 /** Disallow omitting parentheses in empty constructor calls. */
