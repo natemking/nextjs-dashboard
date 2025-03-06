@@ -1,3 +1,4 @@
+// ESLint Core and Configuration Imports
 import { FlatCompat } from '@eslint/eslintrc';
 import eslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
@@ -22,41 +23,50 @@ const noUnusedVarsConfig = [
     },
 ];
 
+/**
+ * Create FlatCompat instance to handle shared configs not up
+ * to date with the latest eslint flat config
+ */
 const compat = new FlatCompat({
     baseDirectory: import.meta.dirname,
 });
 
 export default tseslint.config(
+    // Core ESLint Configurations
     eslint.configs.recommended,
+    tseslint.configs.recommendedTypeChecked,
+    tseslint.configs.strictTypeChecked,
+    tseslint.configs.stylisticTypeChecked,
+    // Compatibility Configurations
     ...compat.config(commentsPlugin.configs.recommended),
+    ...compat.config(nextPlugin.configs.recommended),
+    // Plugin Configurations
     importPlugin.flatConfigs.recommended,
     prettierPluginRecommended,
     jsxA11yPlugin.flatConfigs.recommended,
     reactPlugin.configs.flat.recommended,
     reactPlugin.configs.flat['jsx-runtime'],
     reactHooksPlugin.configs['recommended-latest'],
-    tseslint.configs.recommendedTypeChecked,
-    tseslint.configs.strictTypeChecked,
-    tseslint.configs.stylisticTypeChecked,
-    ...compat.config(nextPlugin.configs.recommended),
     [
-        // global ignores
+        /** Global ignores */
         {
             ignores: ['node_modules/', '.next/'],
         },
-        // prevent ts linting on certain config files - https://typescript-eslint.io/users/configs/#disable-type-checked
+        /**
+         * Prevent ts linting on certain config files -
+         * https://typescript-eslint.io/users/configs/#disable-type-checked
+         */
         {
             files: ['**/*.{js,mjs,cjs}'],
             extends: [tseslint.configs.disableTypeChecked],
         },
-        // rules for ts, tsx, js, & jsx files
+        /** Rules for ts, tsx, js, & jsx files */
         {
-            files: ['**/*.{js,mjs,cjs,jsx,ts,tsx}'],
+            files: ['**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}'],
             linterOptions: {
-                // noInlineConfig: true,
                 reportUnusedDisableDirectives: true,
             },
-            // needed for the ts linting
+            /** Tell tslint parser how to find the TSConfig for each source file. */
             languageOptions: {
                 parserOptions: {
                     projectService: true,
@@ -67,7 +77,7 @@ export default tseslint.config(
                 react: {
                     version: 'detect',
                 },
-                // resolver for typescript and node imports
+                /** Resolver for typescript and node imports */
                 'import/resolver': {
                     typescript: true,
                     node: true,
@@ -216,7 +226,7 @@ export default tseslint.config(
                         'newlines-between': 'never',
                     },
                 ],
-                /** Enabled by import/recommended, but better handled by TS & @typescript-eslint. */
+                /** Enabled by import/recommended, but better handled by TS & typescript-eslint. */
                 'import/default': 'off',
                 'import/export': 'off',
                 'import/namespace': 'off',
@@ -261,130 +271,49 @@ export default tseslint.config(
                 /** Require use of an object spread over Object.assign. */
                 'prefer-object-spread': 'warn',
 
-                // react
+                /** REACT */
                 'react/prop-types': 'off',
-                /**
-                 * Require an explicit type when using button elements.
-                 *
-                 * 🚫 Not fixable - https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/button-has-type.md
-                 */
+                /** Require an explicit type when using button elements. */
                 'react/button-has-type': 'warn',
-                /**
-                 * Require consistent function type for function components.
-                 *
-                 * 🔧 Fixable - https://github.com/jsx-eslint/eslint-plugin-react/blob/HEAD/docs/rules/function-component-definition.md
-                 */
+                /** Require consistent function type for function components. */
                 'react/function-component-definition': 'warn',
-                /**
-                 * Require destructuring and symmetric naming of `useState` hook value and setter variables.
-                 *
-                 * 🚫 Not fixable - https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/hook-use-state.md
-                 */
+                /** Require destructuring and symmetric naming of `useState` hook value and setter variables. */
                 'react/hook-use-state': 'warn',
-                /**
-                 * Require consistent boolean attributes notation in JSX.
-                 *
-                 * 🔧 Fixable - https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-boolean-value.md
-                 */
+                /** Require consistent boolean attributes notation in JSX. */
                 'react/jsx-boolean-value': 'warn',
-                /**
-                 * Disallow unnecessary curly braces in JSX props and children.
-                 *
-                 * 🔧 Fixable - https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-curly-brace-presence.md
-                 */
+                /** Disallow unnecessary curly braces in JSX props and children. */
                 'react/jsx-curly-brace-presence': 'warn',
-                /**
-                 * Require using shorthand form for React fragments, unless required.
-                 *
-                 * 🔧 Fixable - https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-fragments.md
-                 */
+                /**  Require using shorthand form for React fragments, unless required. */
                 'react/jsx-fragments': 'warn',
-                /**
-                 * Prevent problematic leaked values from being rendered.
-                 *
-                 * 🔧 Fixable - https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-no-leaked-render.md
-                 */
+                /** Prevent problematic leaked values from being rendered. */
                 'react/jsx-no-leaked-render': 'warn',
-                /**
-                 * Prevents usage of unsafe `target='_blank'`.
-                 *
-                 * This rule is a part of `react/recommended`, but we've modified it to
-                 * allow referrer.
-                 *
-                 * 🔧 Fixable - https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-no-target-blank.md
-                 */
+                /** Prevents unsafe target='_blank'. Modified from react/recommended to allow referrer */
                 'react/jsx-no-target-blank': [
                     'error',
                     {
                         allowReferrer: true,
                     },
                 ],
-                /**
-                 * Disallow empty React fragments.
-                 *
-                 * 🔧 Fixable - https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-no-useless-fragment.md
-                 */
+                /** Disallow empty React fragments. */
                 'react/jsx-no-useless-fragment': ['warn', { allowExpressions: true }],
-                /**
-                 * Require the use of PascalCase for user-defined JSX components.
-                 *
-                 * 🚫 Not fixable - https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-pascal-case.md
-                 */
+                /** Require the use of PascalCase for user-defined JSX components. */
                 'react/jsx-pascal-case': 'warn',
-                /**
-                 * Disallow usage of Array index in keys.
-                 *
-                 * 🚫 Not fixable - https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/no-array-index-key.md
-                 */
+                /**  Disallow usage of Array index in keys. */
                 'react/no-array-index-key': 'warn',
-                /**
-                 * Disallow creating unstable components inside components.
-                 *
-                 * 🚫 Not fixable - https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/no-unstable-nested-components.md
-                 */
+                /** Disallow creating unstable components inside components. */
                 'react/no-unstable-nested-components': 'error',
-                /**
-                 * Disallow closing tags for components without children.
-                 *
-                 * 🔧 Fixable - https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/self-closing-comp.md
-                 */
+                /** Disallow closing tags for components without children. */
                 'react/self-closing-comp': 'warn',
 
-                // variables
-                /**
-                 * Disallow labels that share a name with a variable.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/no-label-var
-                 */
-                'no-label-var': 'error',
-                /**
-                 * Disallow initializing variables to `undefined`.
-                 *
-                 * 🔧 Fixable - https://eslint.org/docs/rules/no-undef-init
-                 */
-                'no-undef-init': 'warn',
-                /**
-                 * Disallow unused variables.
-                 *
-                 * 🚫 Not fixable - https://eslint.org/docs/rules/no-unused-vars
-                 */ 'no-unused-vars': noUnusedVarsConfig,
-
-                // typescript
+                /** TYPESCRIPT */
+                /** Require types definitions be types only */
                 '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
-                /**
-                 * Require consistent usage of type exports.
-                 *
-                 * 🔧 Fixable - https://typescript-eslint.io/rules/consistent-type-exports/
-                 */
+                /** Require consistent usage of type exports. */
                 '@typescript-eslint/consistent-type-exports': [
                     'warn',
                     { fixMixedExportsWithInlineTypeSpecifier: true },
                 ],
-                /**
-                 * Require consistent usage of type imports.
-                 *
-                 * 🔧 Fixable - https://typescript-eslint.io/rules/consistent-type-imports/
-                 */
+                /** Require consistent usage of type imports. */
                 '@typescript-eslint/consistent-type-imports': [
                     'warn',
                     {
@@ -393,30 +322,14 @@ export default tseslint.config(
                         prefer: 'type-imports',
                     },
                 ],
-                /**
-                 * Require explicit return types on functions and class methods.
-                 *
-                 * 🚫 Not fixable - https://typescript-eslint.io/rules/explicit-function-return-type/
-                 */
+                /** Require explicit return types on functions and class methods. */
                 '@typescript-eslint/explicit-function-return-type': [
                     'warn',
                     { allowExpressions: true },
                 ],
-                /**
-                 * Require using function property types in method signatures.
-                 *
-                 * These have enhanced typechecking, whereas method signatures do not.
-                 *
-                 * 🔧 Fixable - https://typescript-eslint.io/rules/method-signature-style/
-                 */
+                /** Require using function property types in method signatures. */
                 '@typescript-eslint/method-signature-style': 'warn',
-                /**
-                 * Require consistent naming conventions.
-                 *
-                 * Improves IntelliSense suggestions and avoids name collisions.
-                 *
-                 * 🚫 Not fixable - https://typescript-eslint.io/rules/naming-convention/
-                 */
+                /** Require consistent naming for better IntelliSense and to avoid collisions. */
                 '@typescript-eslint/naming-convention': [
                     'error',
                     // Anything type-like should be written in PascalCase.
@@ -424,81 +337,38 @@ export default tseslint.config(
                         format: ['PascalCase'],
                         selector: ['typeLike', 'enumMember'],
                     },
-                    // Interfaces cannot be prefixed with `I`, or have restricted names.
+                    // Types cannot be prefixed with `T`, 'I', or use restricted names.
                     {
                         custom: {
                             match: false,
-                            regex: '^I[A-Z]|^(Interface|Props|State)$',
+                            regex: '^T[A-Z]|^I[A-Z]|^(Interface|Props|State)$',
                         },
                         format: ['PascalCase'],
-                        selector: 'interface',
+                        selector: ['typeAlias', 'interface'],
                     },
                 ],
-                /**
-                 * Disallow members of unions and intersections that do nothing or override type information.
-                 *
-                 * 🚫 Not fixable - https://typescript-eslint.io/rules/no-redundant-type-constituents/
-                 */
+                /** Disallow members of unions and intersections that do nothing or override type information.*/
                 '@typescript-eslint/no-redundant-type-constituents': 'warn',
-                /**
-                 * Disallow unnecessary namespace qualifiers.
-                 *
-                 * 🔧 Fixable - https://typescript-eslint.io/rules/no-unnecessary-qualifier/
-                 */
+                /** Disallow unnecessary namespace qualifiers. */
                 '@typescript-eslint/no-unnecessary-qualifier': 'warn',
-                /**
-                 * Require using `RegExp.exec()` over `String.match()` for consistency.
-                 *
-                 * 🔧 Fixable - https://typescript-eslint.io/rules/prefer-regexp-exec/
-                 */
+                /** Require using `RegExp.exec()` over `String.match()` for consistency. */
                 '@typescript-eslint/prefer-regexp-exec': 'warn',
-                /**
-                 * Require Array#sort calls to provide a compare function.
-                 *
-                 * 🚫 Not fixable - https://typescript-eslint.io/rules/require-array-sort-compare/
-                 */
+                /** Require Array#sort calls to provide a compare function. */
                 '@typescript-eslint/require-array-sort-compare': [
                     'error',
                     { ignoreStringArrays: true },
                 ],
-                /**
-                 * Require exhaustive checks when using union types in switch statements.
-                 *
-                 * This ensures cases are considered when items are later added to a union.
-                 *
-                 * 🚫 Not fixable - https://typescript-eslint.io/rules/switch-exhaustiveness-check/
-                 */
+                /** Require exhaustive checks when using union types in switch statements. */
                 '@typescript-eslint/switch-exhaustiveness-check': 'error',
-                /**
-                 * Require default parameters to be last.
-                 *
-                 * 🚫 Not fixable - https://typescript-eslint.io/rules/default-param-last/
-                 */
+                /** Require default parameters to be last. */
                 '@typescript-eslint/default-param-last': 'error',
-                /**
-                 * Disallow creation of functions within loops.
-                 *
-                 * 🚫 Not fixable - https://typescript-eslint.io/rules/no-loop-func/
-                 */
+                /** Disallow creation of functions within loops. */
                 '@typescript-eslint/no-loop-func': 'error',
-                /**
-                 * Disallow variable declarations from shadowing variables declared in the
-                 * outer scope.
-                 *
-                 * 🚫 Not fixable - https://typescript-eslint.io/rules/no-shadow/
-                 */
+                /**  Disallow variable shadowing outer scope variables. */
                 '@typescript-eslint/no-shadow': 'error',
-                /**
-                 * Disallow unused variables.
-                 *
-                 * 🚫 Not fixable - https://typescript-eslint.io/rules/no-unused-vars/
-                 */
+                /** Disallow unused variables. */
                 '@typescript-eslint/no-unused-vars': noUnusedVarsConfig,
-                /**
-                 * Disallow unnecessary constructors.
-                 *
-                 * 🚫 Not fixable - https://typescript-eslint.io/rules/no-useless-constructor/
-                 */
+                /** Disallow unnecessary constructors. */
                 '@typescript-eslint/no-useless-constructor': 'error',
 
                 /** TSDOC */
@@ -508,12 +378,20 @@ export default tseslint.config(
                 /** UNICORN */
                 /** Require using the `node:` protocol when importing Node.js built-in modules. */
                 'unicorn/prefer-node-protocol': 'warn',
+
+                /** VARIABLES */
+                /** Disallow labels that share a name with a variable. */
+                'no-label-var': 'error',
+                /** Disallow initializing variables to `undefined`. */
+                'no-undef-init': 'warn',
+                /** Disallow unused variables. */
+                'no-unused-vars': noUnusedVarsConfig,
             },
         },
         {
+            /** Require consistent filename case for all js,ts files. */
             files: ['**/*.{js,ts,cjs,cts,mjs,mts}'],
             rules: {
-                /** Require consistent filename case for all js,ts files. */
                 'unicorn/filename-case': [
                     'error',
                     {
@@ -526,28 +404,32 @@ export default tseslint.config(
             },
         },
         {
+            /** Require consistent filename case for all jsx,tsx files. */
             files: ['**/*.{jsx,tsx}'],
             rules: {
-                /** Require consistent filename case for all jsx,tsx files. */
                 'unicorn/filename-case': [
                     'error',
                     {
                         cases: {
                             pascalCase: true,
                         },
+                        // Ignore Next app router file names
+                        ignore: [
+                            /^(?<fileNames>error|global-error|layout|loading|not-found|page)\.(?<fileTypes>jsx|tsx)$/i,
+                        ],
                     },
                 ],
             },
         },
-        // allow default exports in certain files that require them
         {
+            /** Allow default exports in certain files that require them */
             files: [
-                '**/error.tsx',
-                '**/global-error.tsx',
-                '**/layout.tsx',
-                '**/loading.tsx',
-                '**/not-found.tsx',
-                '**/page.tsx',
+                '**/error.{jsx,tsx}',
+                '**/global-error.{jsx,tsx}',
+                '**/layout.{jsx,tsx}',
+                '**/loading.{jsx,tsx}',
+                '**/not-found.{jsx,tsx}',
+                '**/page.{jsx,tsx}',
                 '**/*.config.{js,ts}',
             ],
             rules: {
