@@ -12,8 +12,8 @@ import jsxA11yPlugin from 'eslint-plugin-jsx-a11y';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
 
 /**
- * Create FlatCompat instance to handle shared configs not up
- * to date with the latest eslint flat config
+ * Create FlatCompat instance to handle shared configs 
+ * not up to date with the latest eslint flat config
  */
 const compat = new FlatCompat({
     baseDirectory: import.meta.dirname,
