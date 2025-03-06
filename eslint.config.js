@@ -6,22 +6,10 @@ import reactPlugin from 'eslint-plugin-react';
 import nextPlugin from '@next/eslint-plugin-next';
 import commentsPlugin from 'eslint-plugin-eslint-comments';
 import importPlugin from 'eslint-plugin-import';
-import prettierPluginRecommended from 'eslint-plugin-prettier/recommended';
 import tsdocPlugin from 'eslint-plugin-tsdoc';
 import unicornPlugin from 'eslint-plugin-unicorn';
 import jsxA11yPlugin from 'eslint-plugin-jsx-a11y';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
-
-const noUnusedVarsConfig = [
-    'error',
-    {
-        args: 'after-used',
-        argsIgnorePattern: '^_',
-        ignoreRestSiblings: false,
-        vars: 'all',
-        varsIgnorePattern: '^_',
-    },
-];
 
 /**
  * Create FlatCompat instance to handle shared configs not up
@@ -42,7 +30,6 @@ export default tseslint.config(
     ...compat.config(nextPlugin.configs.recommended),
     // Plugin Configurations
     importPlugin.flatConfigs.recommended,
-    prettierPluginRecommended,
     jsxA11yPlugin.flatConfigs.recommended,
     reactPlugin.configs.flat.recommended,
     reactPlugin.configs.flat['jsx-runtime'],
@@ -270,8 +257,11 @@ export default tseslint.config(
                 'no-unneeded-ternary': 'error',
                 /** Require use of an object spread over Object.assign. */
                 'prefer-object-spread': 'warn',
+                /** Require single quotes */
+                quotes: ['error', 'single'],
 
                 /** REACT */
+                /**  use TS over `prop-types`, as it can add to a project's build size. */
                 'react/prop-types': 'off',
                 /** Require an explicit type when using button elements. */
                 'react/button-has-type': 'warn',
@@ -298,6 +288,8 @@ export default tseslint.config(
                 'react/jsx-no-useless-fragment': ['warn', { allowExpressions: true }],
                 /** Require the use of PascalCase for user-defined JSX components. */
                 'react/jsx-pascal-case': 'warn',
+                /** Alphabetize props */
+                'react/jsx-sort-props': 'warn',
                 /**  Disallow usage of Array index in keys. */
                 'react/no-array-index-key': 'warn',
                 /** Disallow creating unstable components inside components. */
@@ -367,9 +359,35 @@ export default tseslint.config(
                 /**  Disallow variable shadowing outer scope variables. */
                 '@typescript-eslint/no-shadow': 'error',
                 /** Disallow unused variables. */
-                '@typescript-eslint/no-unused-vars': noUnusedVarsConfig,
+                '@typescript-eslint/no-unused-vars': [
+                    'error',
+                    {
+                        // Args & caught errors prefixed with `_`, or named `name`, `err`, `error`
+                        args: 'all',
+                        argsIgnorePattern: '^_|^name$',
+                        caughtErrors: 'all',
+                        caughtErrorsIgnorePattern: '^_|^err$|^error$',
+                        // Unused destructured array elements prefixed with `_`
+                        destructuredArrayIgnorePattern: '^_',
+                        varsIgnorePattern: '^_',
+                        // Allows ignoring unused rest properties in object destructuring
+                        ignoreRestSiblings: true,
+                    },
+                ],
                 /** Disallow unnecessary constructors. */
                 '@typescript-eslint/no-useless-constructor': 'error',
+                /** Disallow certain values in template expressions */
+                '@typescript-eslint/restrict-template-expressions': [
+                    'error',
+                    {
+                        allowAny: false,
+                        allowBoolean: false,
+                        allowNullish: false,
+                        allowNumber: true,
+                        allowRegExp: false,
+                        allowNever: false,
+                    },
+                ],
 
                 /** TSDOC */
                 /** Require TSDoc comments conform to the TSDoc specification. */
@@ -384,8 +402,6 @@ export default tseslint.config(
                 'no-label-var': 'error',
                 /** Disallow initializing variables to `undefined`. */
                 'no-undef-init': 'warn',
-                /** Disallow unused variables. */
-                'no-unused-vars': noUnusedVarsConfig,
             },
         },
         {
