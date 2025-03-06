@@ -9,6 +9,7 @@ import prettierPluginRecommended from 'eslint-plugin-prettier/recommended';
 import tsdocPlugin from 'eslint-plugin-tsdoc';
 import unicornPlugin from 'eslint-plugin-unicorn';
 import jsxA11yPlugin from 'eslint-plugin-jsx-a11y';
+import reactHooksPlugin from 'eslint-plugin-react-hooks';
 
 const noUnusedVarsConfig = [
     'error',
@@ -33,6 +34,7 @@ export default tseslint.config(
     jsxA11yPlugin.flatConfigs.recommended,
     reactPlugin.configs.flat.recommended,
     reactPlugin.configs.flat['jsx-runtime'],
+    reactHooksPlugin.configs['recommended-latest'],
     tseslint.configs.recommendedTypeChecked,
     tseslint.configs.strictTypeChecked,
     tseslint.configs.stylisticTypeChecked,
@@ -42,15 +44,6 @@ export default tseslint.config(
         {
             ignores: ['node_modules/', '.next/'],
         },
-        // needed for the ts linting
-        // {
-        //     languageOptions: {
-        //         parserOptions: {
-        //             projectService: true,
-        //             tsconfigRootDir: import.meta.dirname,
-        //         },
-        //     },
-        // },
         // prevent ts linting on certain config files - https://typescript-eslint.io/users/configs/#disable-type-checked
         {
             files: ['**/*.{js,mjs,cjs}'],

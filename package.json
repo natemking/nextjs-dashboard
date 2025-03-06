@@ -38,6 +38,7 @@
         "eslint-plugin-jsx-a11y": "^6.10.2",
         "eslint-plugin-prettier": "^5.2.3",
         "eslint-plugin-react": "^7.37.4",
+        "eslint-plugin-react-hooks": "^5.2.0",
         "eslint-plugin-tsdoc": "^0.4.0",
         "eslint-plugin-unicorn": "^57.0.0",
         "prettier": "^3.5.3",
