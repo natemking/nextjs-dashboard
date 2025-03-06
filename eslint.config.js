@@ -5,7 +5,8 @@ import reactPlugin from 'eslint-plugin-react';
 import nextPlugin from '@next/eslint-plugin-next';
 import commentsPlugin from 'eslint-plugin-eslint-comments';
 import importPlugin from 'eslint-plugin-import';
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import prettierPluginRecommended from 'eslint-plugin-prettier/recommended';
+import tsdocPlugin from 'eslint-plugin-tsdoc';
 
 const compat = new FlatCompat({
     baseDirectory: import.meta.dirname,
@@ -15,7 +16,7 @@ export default tseslint.config(
     eslint.configs.recommended,
     ...compat.config(commentsPlugin.configs.recommended),
     importPlugin.flatConfigs.recommended,
-    eslintPluginPrettierRecommended,
+    prettierPluginRecommended,
     reactPlugin.configs.flat.recommended,
     reactPlugin.configs.flat['jsx-runtime'],
     tseslint.configs.strictTypeChecked,
@@ -57,10 +58,9 @@ export default tseslint.config(
                     node: true,
                 },
             },
-            // plugins: {
-            // 	'@next/next': fixupPluginRules(nextPlugin),
-            // 	'eslint-comments': fixupPluginRules(commentsPlugin),
-            // },
+            plugins: {
+                tsdoc: tsdocPlugin,
+            },
             rules: {
                 // General JavaScript rules
                 // 'no-console': ['warn', { allow: ['warn', 'error', 'info'] }],
@@ -300,6 +300,9 @@ export default tseslint.config(
                  * 🚫 Not fixable - https://mysticatea.github.io/eslint-plugin-eslint-comments/rules/require-description.html
                  */
                 'eslint-comments/require-description': 'error',
+
+                // tsdoc
+                'tsdoc/syntax': 'error',
 
                 //es6
                 /**
