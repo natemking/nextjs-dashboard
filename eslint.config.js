@@ -8,6 +8,7 @@ import importPlugin from 'eslint-plugin-import';
 import prettierPluginRecommended from 'eslint-plugin-prettier/recommended';
 import tsdocPlugin from 'eslint-plugin-tsdoc';
 import unicornPlugin from 'eslint-plugin-unicorn';
+import jsxA11yPlugin from 'eslint-plugin-jsx-a11y';
 
 const compat = new FlatCompat({
     baseDirectory: import.meta.dirname,
@@ -18,6 +19,7 @@ export default tseslint.config(
     ...compat.config(commentsPlugin.configs.recommended),
     importPlugin.flatConfigs.recommended,
     prettierPluginRecommended,
+    jsxA11yPlugin.flatConfigs.recommended,
     reactPlugin.configs.flat.recommended,
     reactPlugin.configs.flat['jsx-runtime'],
     tseslint.configs.strictTypeChecked,
@@ -323,6 +325,9 @@ export default tseslint.config(
                  * 🔧 Fixable - https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/prefer-node-protocol.md
                  */
                 'unicorn/prefer-node-protocol': 'warn',
+
+                // jsxA11y - This rule has been deprecated, but not yet removed.
+                'jsx-a11y/no-onchange': 'off',
 
                 //es6
                 /**
