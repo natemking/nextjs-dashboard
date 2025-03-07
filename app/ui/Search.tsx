@@ -2,12 +2,12 @@
 
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
-export default function Search({ placeholder }: { placeholder: string }) {
+export function Search({ placeholder }: { placeholder: string }): React.JSX.Element {
     return (
         <div className='relative flex flex-1 shrink-0'>
             <label
-                htmlFor='search'
                 className='sr-only'
+                htmlFor='search'
             >
                 Search
             </label>

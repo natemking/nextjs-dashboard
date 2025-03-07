@@ -1,10 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { lusitana } from '@/app/ui/fonts';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
-import AcmeLogo from '@/app/ui/acme-logo';
+import { lusitana } from '@/app/ui/fonts';
+import { AcmeLogo } from '@/app/ui/AcmeLogo';
 
-export default function Page() {
+export default function Page(): React.JSX.Element {
     return (
         <main className='flex min-h-screen flex-col p-6'>
             <div className='flex h-20 shrink-0 items-end rounded-lg bg-blue-500 p-4 md:h-52'>
@@ -17,34 +17,34 @@ export default function Page() {
                     >
                         <strong>Welcome to Acme.</strong> This is the example for the{' '}
                         <a
-                            href='https://nextjs.org/learn/'
                             className='text-blue-500'
+                            href='https://nextjs.org/learn/'
                         >
                             Next.js Learn Course
                         </a>
                         , brought to you by Vercel.
                     </p>
                     <Link
-                        href='/login'
                         className='flex items-center gap-5 self-start rounded-lg bg-blue-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-400 md:text-base'
+                        href='/login'
                     >
                         <span>Log in</span> <ArrowRightIcon className='w-5 md:w-6' />
                     </Link>
                 </div>
                 <div className='flex items-center justify-center p-6 md:w-3/5 md:px-28 md:py-12'>
                     <Image
+                        alt='Screenshots of the dashboard project showing desktop version'
+                        className='hidden md:block'
+                        height={760}
                         src='/hero-desktop.png'
                         width={1000}
-                        height={760}
-                        className='hidden md:block'
-                        alt='Screenshots of the dashboard project showing desktop version'
                     />
                     <Image
+                        alt='Screenshots of the dashboard project showing mobile version'
                         className='block md:hidden'
+                        height={620}
                         src='/hero-mobile.png'
                         width={560}
-                        height={620}
-                        alt='Screenshots of the dashboard project showing mobile version'
                     />
                 </div>
             </div>
