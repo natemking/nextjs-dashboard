@@ -1,17 +1,20 @@
 import postgres from 'postgres';
-import {
+import type {
+    CardData,
     CustomerField,
     CustomersTableType,
+    Invoice,
     InvoiceForm,
     InvoicesTable,
+    LatestInvoice,
     LatestInvoiceRaw,
     Revenue,
-} from './definitions';
-import { formatCurrency } from './utils';
+} from '@/app/lib/definitions';
+import { formatCurrency } from '@/app/lib/utils';
 
-const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
+const sql = postgres(process.env.POSTGRES_URL ?? '', { ssl: 'require' });
 
-export async function fetchRevenue() {
+export async function fetchRevenue(): Promise<postgres.RowList<Revenue[]>> {
     try {
         // Artificially delay a response for demo purposes.
         // Don't do this in production :)
@@ -30,7 +33,7 @@ export async function fetchRevenue() {
     }
 }
 
-export async function fetchLatestInvoices() {
+export async function fetchLatestInvoices(): Promise<LatestInvoice[]> {
     try {
         const data = await sql<LatestInvoiceRaw[]>`
       SELECT invoices.amount, customers.name, customers.image_url, customers.email, invoices.id
@@ -50,7 +53,7 @@ export async function fetchLatestInvoices() {
     }
 }
 
-export async function fetchCardData() {
+export async function fetchCardData(): Promise<CardData> {
     try {
         // You can probably combine these into a single SQL query
         // However, we are intentionally splitting them to demonstrate
@@ -70,8 +73,8 @@ export async function fetchCardData() {
 
         const numberOfInvoices = Number(data[0][0].count ?? '0');
         const numberOfCustomers = Number(data[1][0].count ?? '0');
-        const totalPaidInvoices = formatCurrency(data[2][0].paid ?? '0');
-        const totalPendingInvoices = formatCurrency(data[2][0].pending ?? '0');
+        const totalPaidInvoices = formatCurrency(Number(data[2][0].paid ?? '0'));
+        const totalPendingInvoices = formatCurrency(Number(data[2][0].pending ?? '0'));
 
         return {
             numberOfCustomers,
@@ -86,7 +89,10 @@ export async function fetchCardData() {
 }
 
 const ITEMS_PER_PAGE = 6;
-export async function fetchFilteredInvoices(query: string, currentPage: number) {
+export async function fetchFilteredInvoices(
+    query: string,
+    currentPage: number
+): Promise<postgres.RowList<InvoicesTable[]>> {
     const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
     try {
@@ -118,7 +124,7 @@ export async function fetchFilteredInvoices(query: string, currentPage: number) 
     }
 }
 
-export async function fetchInvoicesPages(query: string) {
+export async function fetchInvoicesPages(query: string): Promise<number> {
     try {
         const data = await sql`SELECT COUNT(*)
     FROM invoices
@@ -139,7 +145,7 @@ export async function fetchInvoicesPages(query: string) {
     }
 }
 
-export async function fetchInvoiceById(id: string) {
+export async function fetchInvoiceById(id: string): Promise<Omit<Invoice, 'date'>> {
     try {
         const data = await sql<InvoiceForm[]>`
       SELECT
@@ -151,10 +157,10 @@ export async function fetchInvoiceById(id: string) {
       WHERE invoices.id = ${id};
     `;
 
-        const invoice = data.map(invoice => ({
-            ...invoice,
+        const invoice = data.map(invc => ({
+            ...invc,
             // Convert amount from cents to dollars
-            amount: invoice.amount / 100,
+            amount: invc.amount / 100,
         }));
 
         return invoice[0];
@@ -164,7 +170,7 @@ export async function fetchInvoiceById(id: string) {
     }
 }
 
-export async function fetchCustomers() {
+export async function fetchCustomers(): Promise<postgres.RowList<CustomerField[]>> {
     try {
         const customers = await sql<CustomerField[]>`
       SELECT
@@ -181,7 +187,7 @@ export async function fetchCustomers() {
     }
 }
 
-export async function fetchFilteredCustomers(query: string) {
+export async function fetchFilteredCustomers(query: string): Promise<CustomersTableType[]> {
     try {
         const data = await sql<CustomersTableType[]>`
 		SELECT
@@ -203,8 +209,8 @@ export async function fetchFilteredCustomers(query: string) {
 
         const customers = data.map(customer => ({
             ...customer,
-            total_pending: formatCurrency(customer.total_pending),
-            total_paid: formatCurrency(customer.total_paid),
+            total_pending: formatCurrency(Number(customer.total_pending)),
+            total_paid: formatCurrency(Number(customer.total_paid)),
         }));
 
         return customers;
