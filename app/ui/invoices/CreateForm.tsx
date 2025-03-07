@@ -1,43 +1,35 @@
-'use client';
-
-import { CustomerField, InvoiceForm } from '@/app/lib/definitions';
+import Link from 'next/link';
 import {
     CheckIcon,
     ClockIcon,
     CurrencyDollarIcon,
     UserCircleIcon,
 } from '@heroicons/react/24/outline';
-import Link from 'next/link';
+import type { CustomerField } from '@/app/lib/definitions';
 import { Button } from '@/app/ui/Button';
 
-export default function EditInvoiceForm({
-    invoice,
-    customers,
-}: {
-    invoice: InvoiceForm;
-    customers: CustomerField[];
-}) {
+export function Form({ customers }: { customers: CustomerField[] }): React.JSX.Element {
     return (
         <form>
             <div className='rounded-md bg-gray-50 p-4 md:p-6'>
                 {/* Customer Name */}
                 <div className='mb-4'>
                     <label
-                        htmlFor='customer'
                         className='mb-2 block text-sm font-medium'
+                        htmlFor='customer'
                     >
                         Choose customer
                     </label>
                     <div className='relative'>
                         <select
+                            className='peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500'
+                            defaultValue=''
                             id='customer'
                             name='customerId'
-                            className='peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500'
-                            defaultValue={invoice.customer_id}
                         >
                             <option
-                                value=''
                                 disabled
+                                value=''
                             >
                                 Select a customer
                             </option>
@@ -57,21 +49,20 @@ export default function EditInvoiceForm({
                 {/* Invoice Amount */}
                 <div className='mb-4'>
                     <label
-                        htmlFor='amount'
                         className='mb-2 block text-sm font-medium'
+                        htmlFor='amount'
                     >
                         Choose an amount
                     </label>
                     <div className='relative mt-2 rounded-md'>
                         <div className='relative'>
                             <input
+                                className='peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500'
                                 id='amount'
                                 name='amount'
-                                type='number'
-                                step='0.01'
-                                defaultValue={invoice.amount}
                                 placeholder='Enter USD amount'
-                                className='peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500'
+                                step='0.01'
+                                type='number'
                             />
                             <CurrencyDollarIcon className='pointer-events-none absolute top-1/2 left-3 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900' />
                         </div>
@@ -87,32 +78,30 @@ export default function EditInvoiceForm({
                         <div className='flex gap-4'>
                             <div className='flex items-center'>
                                 <input
+                                    className='h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2'
                                     id='pending'
                                     name='status'
                                     type='radio'
                                     value='pending'
-                                    defaultChecked={invoice.status === 'pending'}
-                                    className='h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2'
                                 />
                                 <label
-                                    htmlFor='pending'
                                     className='ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-600'
+                                    htmlFor='pending'
                                 >
                                     Pending <ClockIcon className='h-4 w-4' />
                                 </label>
                             </div>
                             <div className='flex items-center'>
                                 <input
+                                    className='h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2'
                                     id='paid'
                                     name='status'
                                     type='radio'
                                     value='paid'
-                                    defaultChecked={invoice.status === 'paid'}
-                                    className='h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2'
                                 />
                                 <label
-                                    htmlFor='paid'
                                     className='ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-green-500 px-3 py-1.5 text-xs font-medium text-white'
+                                    htmlFor='paid'
                                 >
                                     Paid <CheckIcon className='h-4 w-4' />
                                 </label>
@@ -123,12 +112,12 @@ export default function EditInvoiceForm({
             </div>
             <div className='mt-6 flex justify-end gap-4'>
                 <Link
-                    href='/dashboard/invoices'
                     className='flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200'
+                    href='/dashboard/invoices'
                 >
                     Cancel
                 </Link>
-                <Button type='submit'>Edit Invoice</Button>
+                <Button type='submit'>Create Invoice</Button>
             </div>
         </form>
     );

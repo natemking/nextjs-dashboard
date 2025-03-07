@@ -1,8 +1,8 @@
-import type { StatusOpts } from '@/app/lib/definitions';
 import { CheckIcon, ClockIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
+import type { StatusOpts } from '@/app/lib/definitions';
 
-export default function InvoiceStatus({ status }: { status: StatusOpts }) {
+export function InvoiceStatus({ status }: { status: StatusOpts }): React.JSX.Element {
     return (
         <span
             className={clsx('inline-flex items-center rounded-full px-2 py-1 text-xs', {

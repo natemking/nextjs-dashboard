@@ -1,13 +1,16 @@
 import Image from 'next/image';
 import { lusitana } from '@/app/ui/fonts';
 import { Search } from '@/app/ui/Search';
-import { CustomersTableType, FormattedCustomersTable } from '@/app/lib/definitions';
+import type {
+    // CustomersTableType,
+    FormattedCustomersTable,
+} from '@/app/lib/definitions';
 
-export default async function CustomersTable({
+export function CustomersTable({
     customers,
 }: {
     customers: FormattedCustomersTable[];
-}) {
+}): React.JSX.Element {
     return (
         <div className='w-full'>
             <h1 className={`${lusitana.className} mb-8 text-xl md:text-2xl`}>Customers</h1>
@@ -17,21 +20,21 @@ export default async function CustomersTable({
                     <div className='inline-block min-w-full align-middle'>
                         <div className='overflow-hidden rounded-md bg-gray-50 p-2 md:pt-0'>
                             <div className='md:hidden'>
-                                {customers?.map(customer => (
+                                {customers.map(customer => (
                                     <div
-                                        key={customer.id}
                                         className='mb-2 w-full rounded-md bg-white p-4'
+                                        key={customer.id}
                                     >
                                         <div className='flex items-center justify-between border-b pb-4'>
                                             <div>
                                                 <div className='mb-2 flex items-center'>
                                                     <div className='flex items-center gap-3'>
                                                         <Image
-                                                            src={customer.image_url}
-                                                            className='rounded-full'
                                                             alt={`${customer.name}'s profile picture`}
-                                                            width={28}
+                                                            className='rounded-full'
                                                             height={28}
+                                                            src={customer.image_url}
+                                                            width={28}
                                                         />
                                                         <p>{customer.name}</p>
                                                     </div>
@@ -63,32 +66,32 @@ export default async function CustomersTable({
                                 <thead className='rounded-md bg-gray-50 text-left text-sm font-normal'>
                                     <tr>
                                         <th
-                                            scope='col'
                                             className='px-4 py-5 font-medium sm:pl-6'
+                                            scope='col'
                                         >
                                             Name
                                         </th>
                                         <th
-                                            scope='col'
                                             className='px-3 py-5 font-medium'
+                                            scope='col'
                                         >
                                             Email
                                         </th>
                                         <th
-                                            scope='col'
                                             className='px-3 py-5 font-medium'
+                                            scope='col'
                                         >
                                             Total Invoices
                                         </th>
                                         <th
-                                            scope='col'
                                             className='px-3 py-5 font-medium'
+                                            scope='col'
                                         >
                                             Total Pending
                                         </th>
                                         <th
-                                            scope='col'
                                             className='px-4 py-5 font-medium'
+                                            scope='col'
                                         >
                                             Total Paid
                                         </th>
@@ -98,17 +101,17 @@ export default async function CustomersTable({
                                 <tbody className='divide-y divide-gray-200 text-gray-900'>
                                     {customers.map(customer => (
                                         <tr
-                                            key={customer.id}
                                             className='group'
+                                            key={customer.id}
                                         >
                                             <td className='bg-white py-5 pr-3 pl-4 text-sm whitespace-nowrap text-black group-first-of-type:rounded-md group-last-of-type:rounded-md sm:pl-6'>
                                                 <div className='flex items-center gap-3'>
                                                     <Image
-                                                        src={customer.image_url}
-                                                        className='rounded-full'
                                                         alt={`${customer.name}'s profile picture`}
-                                                        width={28}
+                                                        className='rounded-full'
                                                         height={28}
+                                                        src={customer.image_url}
+                                                        width={28}
                                                     />
                                                     <p>{customer.name}</p>
                                                 </div>

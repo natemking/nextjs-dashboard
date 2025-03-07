@@ -8,7 +8,7 @@ const iconMap = {
     invoices: InboxIcon,
 };
 
-export default async function CardWrapper() {
+export function CardWrapper(): React.JSX.Element {
     return (
         <>
             {/* NOTE: Uncomment this code in Chapter 9 */}
@@ -33,13 +33,13 @@ export function Card({
     title: string;
     value: number | string;
     type: 'invoices' | 'customers' | 'pending' | 'collected';
-}) {
-    const Icon = iconMap[type];
+}): React.JSX.Element {
+    const Icon = iconMap[type] ;
 
     return (
         <div className='rounded-xl bg-gray-50 p-2 shadow-xs'>
             <div className='flex p-4'>
-                {Icon ? <Icon className='h-5 w-5 text-gray-700' /> : null}
+                <Icon className='h-5 w-5 text-gray-700' />
                 <h3 className='ml-2 text-sm font-medium'>{title}</h3>
             </div>
             <p
